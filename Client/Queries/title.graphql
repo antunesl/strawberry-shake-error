@@ -1,0 +1,8 @@
+﻿query GetTitleRatings {
+  title(id: "tt6334354") {
+    ratingsSummary {
+      aggregateRating
+      voteCount
+    }
+  }
+}

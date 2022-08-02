@@ -1,0 +1,1147 @@
+schema {
+  type: Query
+}
+
+type Aka implements HasDisplayableProperty {
+  country: DisplayableCountry
+  displayableProperty: DisplayableTitleAkaProperty!
+  language: DisplayableLanguage
+  text: String!
+}
+
+type AkaConnection implements Connection {
+  edges: [AkaEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type AkaEdge implements Edge {
+  cursor: ID!
+  node: Aka!
+  position: Int!
+}
+
+enum AkaFilter {
+  EXCLUDE_IF_SAME_AS_PRIMARY
+}
+
+input AkaSort {
+  by: AkaSortBy!
+  order: SortOrder!
+}
+
+enum AkaSortBy {
+  COUNTRY
+  RELEVANCE
+}
+
+type AwardCategory {
+  text: String
+}
+
+type AwardDetails implements DisplayableConcept {
+  category: AwardCategory
+  event: AwardsEvent!
+  id: ID!
+  text: String!
+  year: Int!
+}
+
+type AwardNomination {
+  award: AwardDetails!
+  id: ID!
+  isWinner: Boolean!
+}
+
+type AwardNominationConnection implements Connection {
+  edges: [AwardNominationEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type AwardNominationEdge implements Edge {
+  cursor: ID!
+  node: AwardNomination!
+  position: Int!
+}
+
+input AwardNominationsFilter {
+  awards: [ID!]
+  events: [ID!]
+  wins: WinsFilter
+}
+
+type AwardsEvent implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+enum BoxOfficeArea {
+  DOMESTIC
+  INTERNATIONAL
+  WORLDWIDE
+}
+
+type BoxOfficeGross {
+  total: Money!
+}
+
+type BoxOfficeWeekendChart {
+  entries: [ChartEntry!]!
+  weekendEndDate: Date!
+  weekendStartDate: Date!
+}
+
+type Cast implements Credit {
+  attributes(limit: Int): [CreditAttribute!]
+  category: CreditCategory!
+  characters(limit: Int): [Character!]
+  name: Name!
+  title: Title!
+  position: Int
+}
+
+type Certificate {
+  attributes(limit: Int): [DisplayableAttribute!]!
+  country: DisplayableCountry!
+  id: String!
+  rating: String!
+  ratingReason: String
+  ratingsBody: RatingsBody
+}
+
+type CertificatesConnection implements Connection {
+  edges: [CertificatesEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type CertificatesEdge implements Edge {
+  cursor: ID!
+  node: Certificate!
+  position: Int!
+}
+
+input CertificatesFilter {
+  ratingsBody: ID
+}
+
+type Character {
+  name: String!
+}
+
+type ChartEntry {
+  title: Title!
+  weekendGross: BoxOfficeGross!
+}
+
+type Coloration implements DisplayableConcept & HasDisplayableProperty {
+  displayableProperty: DisplayableTechnicalSpecificationProperty!
+  id: ID!
+  text: String!
+}
+
+type Colorations {
+  items: [Coloration!]!
+  total: Int!
+  restriction: TechnicalSpecificationsRestriction
+}
+
+type Company {
+  companyText: CompanyText
+  id: ID!
+}
+
+type CompanyCredit implements HasDisplayableProperty {
+  category: CompanyCreditCategory!
+  company: Company!
+  countries(limit: Int): [DisplayableCountry!]
+  displayableProperty: DisplayableTitleCompanyCreditProperty!
+  title: Title!
+  yearsInvolved: YearRange
+  distributionFormats: [DistributionFormat!]
+}
+
+type CompanyCreditCategory implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type CompanyCreditConnection implements Connection {
+  edges: [CompanyCreditEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: CompanyCreditRestriction
+}
+
+type CompanyCreditEdge implements Edge {
+  cursor: ID!
+  node: CompanyCredit!
+  position: Int!
+}
+
+type CompanyCreditRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+input CompanyCreditsFilter {
+  categories: [ID!]
+}
+
+type CompanyMetadata {
+  companyCreditCategories: [CompanyCreditCategory!]!
+}
+
+type CompanyText {
+  text: String!
+}
+
+interface Connection {
+  edges: [Edge!]!
+  pageInfo: PageInfo!
+}
+
+input ConnectionsFilter {
+  categories: [ID!]
+}
+
+interface ContentRestriction {
+  explanations: [RestrictionExplanation!]!
+}
+
+type CountriesOfOrigin {
+  countries(limit: Int): [CountryOfOrigin!]!
+}
+
+type CountryOfOrigin implements HasDisplayableProperty {
+  displayableProperty: DisplayableTitleCountryOfOriginProperty!
+  id: ID!
+  text: String!
+}
+
+interface Credit {
+  attributes(limit: Int): [CreditAttribute!]
+  category: CreditCategory!
+  name: Name!
+  title: Title!
+}
+
+interface CreditAttribute {
+  id: ID!
+  text: String!
+}
+
+type CreditCategory {
+  id: ID!
+  text: String!
+}
+
+type CreditConnection implements Connection {
+  edges: [CreditEdge!]!
+  orderBy: CreditsOrderedBy
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: CreditRestriction
+}
+
+type CreditedAsCreditAttribute implements CreditAttribute {
+  creditedAs: String!
+  id: ID!
+  text: String!
+}
+
+type CreditEdge implements Edge {
+  cursor: ID!
+  node: Credit!
+  position: Int!
+}
+
+enum CreditedOrUncreditedFilter {
+  ALL_CREDITS
+  CREDITED_ONLY
+  UNCREDITED_ONLY
+}
+
+type CreditRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+type CreditsOrderedBy implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type Crew implements Credit {
+  attributes(limit: Int): [CreditAttribute!]
+  category: CreditCategory!
+  jobs(limit: Int): [CrewJob!]
+  name: Name!
+  title: Title!
+}
+
+type CrewJob {
+  id: ID!
+  text: String!
+}
+
+scalar Date
+
+type DisplayableAttribute {
+  id: ID
+  text: String!
+}
+
+interface DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type DisplayableCountry implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type DisplayableExternalLinkProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableLanguage implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type DisplayableNameAkaProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+interface DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTechnicalSpecificationProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleAkaProperty implements DisplayableProperty & HasDisplayablePropertyKey {
+  key: Markdown!
+  value: Markdown!
+}
+
+type DisplayableTitleCompanyCreditProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleCountryOfOriginProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleFilmingLocationProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleGenreProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleReleaseDateProperty implements DisplayableProperty & HasDisplayablePropertyKey {
+  key: Markdown!
+  value: Markdown!
+}
+
+type DisplayableTitleRuntimeProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleSpokenLanguageProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleTaglineProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DisplayableTitleTypeProperty implements DisplayableProperty {
+  value: Markdown!
+}
+
+type DistributionFormat {
+  id: ID!
+  text: String!
+}
+
+interface Edge {
+  cursor: ID!
+}
+
+type EpisodeConnection implements Connection {
+  edges: [EpisodeEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type EpisodeEdge implements Edge {
+  cursor: ID!
+  node: Title!
+  position: Int!
+}
+
+type EpisodeNumber {
+  episodeNumber: Int!
+  seasonNumber: Int!
+}
+
+input EpisodeReleaseDate {
+  day: Int
+  month: Int
+  year: Int!
+}
+
+type Episodes {
+  episodes(after: ID before: ID filter: EpisodesFilter first: Int jumpTo: ID last: Int sort: EpisodesSort): EpisodeConnection
+  isOngoing: Boolean
+  seasons(limit: Int): [EpisodesSeason!]!
+  years(limit: Int): [EpisodesYear!]!
+}
+
+input EpisodesFilter {
+  releasedOnOrAfter: EpisodeReleaseDate
+  releasedOnOrBefore: EpisodeReleaseDate
+}
+
+type EpisodesSeason {
+  number: Int!
+}
+
+input EpisodesSort {
+  by: EpisodesSortBy!
+  order: SortOrder!
+}
+
+enum EpisodesSortBy {
+  RATING
+  RELEASE_DATE
+}
+
+type EpisodesYear {
+  year: Int!
+}
+
+type EventConnection implements Connection {
+  edges: [EventEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type EventEdge implements Edge {
+  cursor: ID!
+  node: AwardsEvent!
+  position: Int!
+}
+
+type EventMetadata {
+  events(after: ID before: ID first: Int last: Int): EventConnection
+}
+
+type ExternalLink implements HasDisplayableProperty & Link {
+  displayableProperty: DisplayableExternalLinkProperty!
+  externalLinkLanguages: [DisplayableLanguage!]
+  externalLinkRegion: DisplayableCountry
+  label: String
+  url: String!
+}
+
+type ExternalLinkConnection implements Connection {
+  edges: [ExternalLinkEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: ExternalLinkRestriction
+}
+
+type ExternalLinkEdge implements Edge {
+  cursor: ID!
+  node: ExternalLink!
+  position: Int!
+}
+
+type ExternalLinkRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+input ExternalLinksFilter {
+  categories: [ID!]
+  excludeCategories: [ID!]
+}
+
+type FilmingLocation implements HasDisplayableProperty {
+  attributes(limit: Int): [DisplayableAttribute!]
+  displayableProperty: DisplayableTitleFilmingLocationProperty!
+  id: ID!
+  text: String!
+}
+
+type FilmingLocationConnection implements Connection {
+  edges: [FilmingLocationEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: FilmingLocationRestriction
+}
+
+type FilmingLocationEdge implements Edge {
+  cursor: ID!
+  node: FilmingLocation!
+  position: Int!
+}
+
+type FilmingLocationRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+input FilterPlots {
+  spoilers: FilterSpoilers
+  type: [PlotType!]
+}
+
+enum FilterSpoilers {
+  EXCLUDE_SPOILERS
+  SPOILERS_ONLY
+}
+
+enum FilterVersions {
+  ALL_VERSIONS
+  ORIGINAL_ONLY
+}
+
+type Genre implements HasDisplayableProperty {
+  displayableProperty: DisplayableTitleGenreProperty!
+  id: ID!
+  text: String!
+}
+
+type GenreItem implements HasDisplayableProperty {
+  id: ID!
+  text: String!
+  genreId: String!
+  displayableProperty: DisplayableTitleGenreProperty!
+}
+
+type Genres {
+  genres(limit: Int): [Genre!]!
+}
+
+input GenreSort {
+  order: SortOrder
+  by: GenreSortBy
+}
+
+enum GenreSortBy {
+  DEFAULT
+  RELEVANCE
+}
+
+interface HasDisplayableProperty {
+  displayableProperty: DisplayableProperty!
+}
+
+interface HasDisplayablePropertyKey {
+  key: Markdown!
+}
+
+type Image implements ImageObject {
+  height: Int
+  id: ID!
+  url: String
+  width: Int
+}
+
+interface ImageObject {
+  height: Int
+  url: String
+  width: Int
+}
+
+type InterestScore {
+  usersInterested: Int!
+  usersVoted: Int!
+}
+
+type JobCreditAttribute implements CreditAttribute {
+  id: ID!
+  job: String!
+  text: String!
+}
+
+type Keyword {
+  id: ID!
+  text: KeywordText
+  category: KeywordCategory
+}
+
+type KeywordCategory {
+  id: ID!
+}
+
+type KeywordMetadata {
+  keywordCategories(limit: Int): [KeywordCategory!]!
+}
+
+type KeywordText {
+  id: ID!
+  text: String!
+}
+
+interface Link {
+  label: String
+  url: String!
+}
+
+type MainSearchConnection implements Connection {
+  edges: [MainSearchEdge!]!
+  pageInfo: PageInfo!
+}
+
+type MainSearchEdge implements Edge {
+  cursor: ID!
+  node: MainSearchNode!
+  position: Int!
+}
+
+union MainSearchEntity = Keyword | Name | Title
+
+type MainSearchNode {
+  entity: MainSearchEntity!
+  id: ID!
+}
+
+input MainSearchOptions {
+  includeAdult: Boolean
+  isExactMatch: Boolean
+  searchTerm: String!
+  titleSearchOptions: TitleSearchOptions
+  type: [MainSearchType!]
+}
+
+enum MainSearchTitleType {
+  MOVIE
+  TV
+  TV_EPISODE
+  VIDEO_GAME
+}
+
+enum MainSearchType {
+  KEYWORD
+  NAME
+  TITLE
+}
+
+type Markdown {
+  markdown: String!
+  plainText: String
+}
+
+interface Meta {
+  canonicalId: ID!
+  publicationStatus: PublicationStatus!
+}
+
+type MiscellaneousCreditAttribute implements CreditAttribute {
+  id: ID!
+  text: String!
+}
+
+type Money {
+  amount: Float!
+  currency: String!
+}
+
+type Name implements PrimaryConst {
+  id: ID!
+  meta: NameMeta
+  akas(first: Int after: ID last: Int before: ID): NameAkaConnection
+  credits(first: Int after: ID last: Int before: ID filter: NameCreditsFilter): NameCreditConnection
+  knownFor(first: Int after: ID last: Int before: ID jumpTo: ID): NameKnownForConnection
+  awardNominations(first: Int after: ID last: Int before: ID jumpTo: ID filter: AwardNominationsFilter): AwardNominationConnection
+  nameText: NameText
+  canonicalUrl: String
+}
+
+type NameAka implements HasDisplayableProperty {
+  displayableProperty: DisplayableNameAkaProperty!
+  text: String!
+}
+
+type NameAkaConnection implements Connection {
+  edges: [NameAkaEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type NameAkaEdge implements Edge {
+  cursor: ID!
+  node: NameAka!
+  position: Int!
+}
+
+type NameCreditCategory implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type NameCreditConnection implements Connection {
+  edges: [CreditEdge!]!
+  orderBy: CreditsOrderedBy
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: CreditRestriction
+}
+
+input NameCreditsFilter {
+  categories: [ID!]
+  credited: CreditedOrUncreditedFilter
+  excludeCategories: [ID!]
+  titles: [ID!]
+}
+
+type NameKnownFor {
+  summary: NameKnownForSummary!
+  title: Title!
+}
+
+type NameKnownForConnection implements Connection {
+  edges: [NameKnownForEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: NameKnownForRestriction
+}
+
+type NameKnownForEdge implements Edge {
+  cursor: ID!
+  node: NameKnownFor!
+  position: Int!
+}
+
+type NameKnownForRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+type NameKnownForSummary {
+  principalCategory: CreditCategory!
+  principalCharacters(limit: Int): [Character!]
+  principalJobs(limit: Int): [CrewJob!]
+  yearRange: YearRange
+}
+
+type NameMeta implements Meta {
+  canonicalId: ID!
+  publicationStatus: PublicationStatus!
+}
+
+type NameMetadata {
+  nameCreditCategories: [NameCreditCategory!]!
+}
+
+type NameText {
+  text: String!
+}
+
+type OpeningWeekendGross {
+  gross: BoxOfficeGross!
+  weekendEndDate: Date!
+  theaterCount: Int
+  weekendStartDate: Date
+}
+
+type PageInfo {
+  endCursor: ID
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: ID
+}
+
+type Plot {
+  author: String
+  id: ID!
+  isSpoiler: Boolean
+  plotText: Markdown
+  plotType: PlotType
+  title: Title
+}
+
+type PlotConnection implements Connection {
+  edges: [PlotEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+  restriction: PlotRestriction
+}
+
+type PlotEdge implements Edge {
+  cursor: ID!
+  node: Plot!
+  position: Int!
+}
+
+type PlotRestriction implements ContentRestriction {
+  explanations: [RestrictionExplanation!]!
+}
+
+enum PlotType {
+  OUTLINE
+  SUMMARY
+  SYNOPSIS
+}
+
+interface PrimaryConst {
+  id: ID!
+}
+
+input PrincipalCreditsFilter {
+  categories: [ID!]
+}
+
+type PrincipalCreditsForCategory {
+  category: CreditCategory!
+  credits(limit: Int): [Credit!]!
+  totalCredits: Int!
+  restriction: CreditRestriction
+}
+
+type ProductionAnnouncement {
+  comment: ProductionAnnouncementComment
+  date: Date!
+}
+
+type ProductionAnnouncementComment {
+  id: ID!
+  text: String!
+}
+
+type ProductionBudget {
+  budget: Money!
+}
+
+type ProductionStage {
+  id: ID!
+  text: String!
+}
+
+type ProductionStatus {
+  id: ID!
+  text: String!
+}
+
+type ProductionStatusDetails {
+  currentProductionStage: ProductionStage!
+  productionStatusHistory: [ProductionStatusHistory]
+  announcements: [ProductionAnnouncement!]
+  restriction: ProductionStatusHistoryRestriction
+}
+
+type ProductionStatusHistory {
+  status: ProductionStatus!
+  stage: ProductionStage!
+  date: Date!
+}
+
+type ProductionStatusHistoryRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+enum PublicationStatus {
+  NOT_PUBLISHED
+  PUBLISHED
+  REDIRECTED
+}
+
+type Query {
+  companyMetadata: CompanyMetadata
+  eventMetadata: EventMetadata
+  keywordMetadata: KeywordMetadata
+  name(id: ID!): Name
+  nameMetadata: NameMetadata
+  names(ids: [ID!]!): [Name]!
+  title(id: ID!): Title
+  titleMetadata: TitleMetadata
+  titles(ids: [ID!]!): [Title]!
+  boxOfficeWeekendChart(limit: Int): BoxOfficeWeekendChart
+  mainSearch(after: String first: Int! options: MainSearchOptions!): MainSearchConnection
+}
+
+type RankedLifetimeBoxOfficeGross {
+  rank: Int
+  total: Money!
+}
+
+type RatingsBody implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type RatingsSummary {
+  aggregateRating: Float
+  voteCount: Int!
+}
+
+type ReleaseDate implements HasDisplayableProperty {
+  country: DisplayableCountry
+  day: Int
+  displayableProperty: DisplayableTitleReleaseDateProperty!
+  month: Int
+  year: Int
+  restriction: ReleaseDateRestriction
+}
+
+type ReleaseDateConnection implements Connection {
+  edges: [ReleaseDateEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type ReleaseDateEdge implements Edge {
+  cursor: ID!
+  node: ReleaseDate!
+  position: Int!
+}
+
+type ReleaseDateRestriction implements ContentRestriction {
+  explanations: [RestrictionExplanation!]!
+}
+
+type RestrictionExplanation {
+  id: ID!
+  text: String!
+}
+
+type Runtime implements HasDisplayableProperty {
+  country: DisplayableCountry
+  displayableProperty: DisplayableTitleRuntimeProperty!
+  id: ID!
+  seconds: Int!
+}
+
+type Series {
+  episodeNumber: EpisodeNumber
+  nextEpisode: Title
+  previousEpisode: Title
+  series: Title!
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+type SpokenLanguage implements HasDisplayableProperty {
+  displayableProperty: DisplayableTitleSpokenLanguageProperty!
+  id: ID!
+  text: String!
+}
+
+type SpokenLanguages {
+  spokenLanguages(limit: Int): [SpokenLanguage!]!
+}
+
+type Tagline implements HasDisplayableProperty {
+  displayableProperty: DisplayableTitleTaglineProperty!
+  text: String!
+}
+
+type TaglineConnection implements Connection {
+  edges: [TaglineEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type TaglineEdge implements Edge {
+  cursor: ID!
+  node: Tagline!
+  position: Int!
+}
+
+type TechnicalSpecifications {
+  colorations: Colorations!
+}
+
+input TechnicalSpecificationsFilter {
+  versions: FilterVersions
+}
+
+type TechnicalSpecificationsRestriction implements ContentRestriction {
+  unrestrictedTotal: Int
+  explanations: [RestrictionExplanation!]!
+}
+
+type Title implements PrimaryConst {
+  id: ID!
+  akas(first: Int after: ID last: Int before: ID sort: AkaSort filter: AkaFilter): AkaConnection
+  countriesOfOrigin: CountriesOfOrigin
+  taglines(first: Int after: ID last: Int before: ID): TaglineConnection
+  plots(first: Int after: ID last: Int before: ID jumpTo: ID filter: FilterPlots): PlotConnection
+  titleType: TitleType
+  companyCredits(first: Int after: ID last: Int before: ID filter: CompanyCreditsFilter): CompanyCreditConnection
+  certificate: Certificate
+  connections(first: Int after: ID last: Int before: ID jumpTo: ID filter: ConnectionsFilter): TitleConnectionConnection
+  certificates(first: Int after: ID last: Int before: ID jumpTo: ID filter: CertificatesFilter): CertificatesConnection
+  spokenLanguages: SpokenLanguages
+  releaseDates(after: ID before: ID first: Int last: Int): ReleaseDateConnection
+  credits(first: Int after: ID last: Int before: ID filter: TitleCreditsFilter): CreditConnection
+  principalCredits(filter: PrincipalCreditsFilter): [PrincipalCreditsForCategory!]
+  runtime: Runtime
+  filmingLocations(first: Int after: ID last: Int before: ID jumpTo: ID): FilmingLocationConnection
+  keywords(first: Int after: ID last: Int before: ID jumpTo: ID sort: TitleKeywordsSort): TitleKeywordConnection
+  externalLinks(first: Int after: ID last: Int before: ID filter: ExternalLinksFilter): ExternalLinkConnection
+  awardNominations(first: Int after: ID last: Int before: ID jumpTo: ID filter: AwardNominationsFilter): AwardNominationConnection
+  titleGenres: TitleGenres
+  genres: Genres @deprecated(reason: "Please use titleGenres instead.")
+  releaseYear: YearRange
+  isAdult: Boolean
+  releaseDate: ReleaseDate
+  titleText: TitleText
+  productionStatus: ProductionStatusDetails
+  originalTitleText: TitleText
+  technicalSpecifications(filter: TechnicalSpecificationsFilter): TechnicalSpecifications
+  episodes: Episodes
+  series: Series
+  primaryImage: Image
+  meta: TitleMeta
+  canonicalUrl: String
+  ratingsSummary: RatingsSummary
+  openingWeekendGross(boxOfficeArea: BoxOfficeArea!): OpeningWeekendGross
+  productionBudget: ProductionBudget
+  lifetimeGross(boxOfficeArea: BoxOfficeArea!): BoxOfficeGross
+  rankedLifetimeGross(boxOfficeArea: BoxOfficeArea!): RankedLifetimeBoxOfficeGross
+}
+
+type TitleConnection {
+  associatedTitle: Title!
+  category: TitleConnectionCategory!
+  text: String
+}
+
+type TitleConnectionCategory implements DisplayableConcept {
+  id: ID!
+  text: String!
+}
+
+type TitleConnectionConnection implements Connection {
+  edges: [TitleConnectionEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type TitleConnectionEdge implements Edge {
+  cursor: ID!
+  node: TitleConnection!
+  position: Int!
+}
+
+input TitleCreditsFilter {
+  categories: [ID!]
+  credited: CreditedOrUncreditedFilter
+  excludeCategories: [ID!]
+  excludePrincipal: Boolean
+  names: [ID!]
+}
+
+type TitleGenre {
+  genre: GenreItem!
+  relevanceRanking: Int!
+  subGenres: [TitleKeyword]!
+}
+
+type TitleGenres {
+  genres(limit: Int sort: GenreSort): [TitleGenre!]!
+}
+
+type TitleKeyword {
+  interestScore: InterestScore!
+  keyword: Keyword!
+}
+
+type TitleKeywordConnection implements Connection {
+  edges: [TitleKeywordEdge!]!
+  pageInfo: PageInfo!
+  total: Int!
+}
+
+type TitleKeywordEdge implements Edge {
+  cursor: ID!
+  node: TitleKeyword!
+  position: Int!
+}
+
+input TitleKeywordsSort {
+  by: TitleKeywordsSortBy!
+}
+
+enum TitleKeywordsSortBy {
+  ALPHABETICAL
+}
+
+type TitleMeta implements Meta {
+  canonicalId: ID!
+  publicationStatus: PublicationStatus!
+  restrictions: TitleMetaRestrictions
+}
+
+type TitleMetadata {
+  titleConnectionCategories: [TitleConnectionCategory!]!
+  titleTypeCategories: [TitleTypeCategoryWithTitleTypes!]!
+  titleTypes(category: TitleTypeCategoryValue): [TitleType!]!
+}
+
+type TitleMetaRestrictions implements ContentRestriction {
+  explanations: [RestrictionExplanation!]!
+}
+
+input TitleSearchOptions {
+  type: [MainSearchTitleType!]
+}
+
+type TitleText {
+  isOriginalTitle: Boolean!
+  text: String!
+}
+
+type TitleType implements HasDisplayableProperty {
+  canHaveEpisodes: Boolean!
+  categories: [TitleTypeCategory!]!
+  displayableProperty: DisplayableTitleTypeProperty!
+  id: ID!
+  isEpisode: Boolean!
+  isSeries: Boolean!
+  text: String!
+}
+
+type TitleTypeCategory {
+  id: ID!
+  text: String!
+  value: TitleTypeCategoryValue!
+}
+
+enum TitleTypeCategoryValue {
+  gaming
+  movie
+  other
+  tv
+  video
+}
+
+type TitleTypeCategoryWithTitleTypes {
+  category: TitleTypeCategory!
+  titleTypes: [TitleType!]!
+}
+
+enum WinsFilter {
+  EXCLUDE_WINS
+  WINS_ONLY
+}
+
+type YearRange {
+  endYear: Int
+  year: Int
+}
